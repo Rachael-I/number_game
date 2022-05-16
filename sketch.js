@@ -9,7 +9,11 @@ function setup() {
 
 function draw() {
   var gameScore = getGameScore(results);
-  console.log(gameScore);
+  
+  if (gameScore.loss === 3 || gameScore.total === 10) {
+    displayGameOver(gameScore);
+    return;
+  }
   
   background(220); 
   if (frameCount === 1 || frameCount % interval === 0) {
@@ -26,6 +30,28 @@ function draw() {
   } else if (solution === false) {
     background(0);
   }
+}
+
+function displayGameOver(score) {
+  push();
+  background(255);
+  textAlign(CENTER, CENTER);
+  translate(width/2, height/2);
+  
+  fill(237, 34, 93);
+  textSize(24);
+  text('GAME OVER!', 0, 0);
+  
+  fill(0);
+  translate(0, 36);
+  text('You have ' + score.win + ' correct guesses', 0, 0);
+  
+  var alternatingValue = map(sin(frameCount/10), -1, 1, 0, 255);
+  fill(237, 34, 93, alternatingValue);
+  textSize(16);
+  translate(0, 80);
+  text('PRESS ENTER', 0, 0);
+  pop();
 }
 
 function getGameScore(score) {
